@@ -1,16 +1,20 @@
-NAME	= push_swap
+NAME	= server
+
+NAME2	= client
 
 CFLAGS	= -Wall -Wextra -Werror
 
 CC		= gcc
 
-HEADER		= push_swap.h
+HEADER		= minitalk.h
 
-SRCS	= main.c ft_algorithm.c ft_algorithm_3.c ft_algorithm_5.c ft_actions.c ft_actions_next.c\
-			ft_for_main_algorithm.c ft_instructions.c ft_instructions_next.c \
-			ft_markup.c ft_works_with_array.c
+SRCS	= server.c
+SRCS2	= client.c
 
 OBJS	= $(SRCS:.c=.o)
+OBJS2	= $(SRCS2:.c=.o)
+
+all: $(NAME2) $(NAME) 
 %.o: 	%.c $(HEADER)
 		$(CC) $(CFLAGS) -c $< -o $@
 
@@ -20,15 +24,19 @@ $(NAME):	$(OBJS) $(HEADER)
 			cp libft/libft.a ./$(NAME)
 			$(CC) $(OBJS) ./libft/libft.a -o ${NAME}
 
-all: $(NAME)
+$(NAME2):	$(OBJS2) $(HEADER)
+			$(MAKE) bonus -C ./libft
+			$(MAKE) all -C ./libft
+			cp libft/libft.a ./$(NAME2)
+			$(CC) $(OBJS2) ./libft/libft.a -o ${NAME2}
 
 clean:
 	$(MAKE) clean -C ./libft
-	-rm -rf $(OBJS)
-
+	-rm -rf $(OBJS) $(OBJS2)
+	
 fclean: clean
 	$(MAKE) fclean -C ./libft
-	-rm -rf $(NAME)
+	-rm -rf $(NAME) $(NAME2)
 
 re:		fclean all
 
