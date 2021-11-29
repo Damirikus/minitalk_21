@@ -1,2 +1,3 @@
 # minitalk_21
-finish
+
+client-server application where communication takes place using signals
